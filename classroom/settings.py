@@ -23,6 +23,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-n^8hh7gje^o3e=+2$f%@4q$)x=
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    'localhost',
     'jake-inf-project.herokuapp.com',
     'api.classroom.jakeryan.co.uk',
 ]
