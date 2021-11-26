@@ -1,1 +1,1 @@
-web: gunicorn infprojectserver.wsgi
+web: gunicorn classroom.wsgi
