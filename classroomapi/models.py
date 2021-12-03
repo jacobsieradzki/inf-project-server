@@ -21,7 +21,7 @@ class Course(models.Model):
     class Meta:
         app_label = 'classroomapi'
         constraints = [
-            UniqueConstraint(fields=['id', 'organisation'], name='course_id')
+            UniqueConstraint(fields=['id', 'organisation_id'], name='course_id')
         ]
 
     def __str__(self):
@@ -68,7 +68,6 @@ class Resource(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     name = models.CharField(max_length=60)
     description = models.CharField(max_length=60)
-    name = models.CharField(max_length=60)
     type = models.CharField(max_length=16, choices=ResourceType.choices, default=ResourceType.URL)
     url = models.URLField(max_length=200)
 
