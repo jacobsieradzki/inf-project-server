@@ -14,10 +14,6 @@ from pathlib import Path
 import django_heroku
 import dj_database_url
 
-ON_HEROKU = False
-if 'APP_ENV' in os.environ:
-    ON_HEROKU = True
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
@@ -144,5 +140,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Connecting with Heroku Postgres DB Add-on
 # https://devcenter.heroku.com/articles/heroku-postgresql#connecting-with-django
-if ON_HEROKU:
-    # DATABASES['default'] = dj_database_url.config()
+DATABASES['default'] = dj_database_url.config()
