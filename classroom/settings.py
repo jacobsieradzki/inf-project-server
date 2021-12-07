@@ -145,4 +145,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Connecting with Heroku Postgres DB Add-on
 # https://devcenter.heroku.com/articles/heroku-postgresql#connecting-with-django
 if ON_HEROKU:
-    DATABASES['default'] = dj_database_url.config()
+    # DATABASES['default'] = dj_database_url.config()
