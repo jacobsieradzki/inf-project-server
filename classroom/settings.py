@@ -83,12 +83,7 @@ WSGI_APPLICATION = 'classroom.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3")
-    }
-}
+DATABASES = {}
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -140,4 +135,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Connecting with Heroku Postgres DB Add-on
 # https://devcenter.heroku.com/articles/heroku-postgresql#connecting-with-django
-DATABASES['default'] = dj_database_url.config()
+DATABASES['default'] = dj_database_url.config(engine='django.db.backends.postgresql')

@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import UniqueConstraint
 from django.utils.translation import gettext_lazy as _
 
 
@@ -18,38 +17,14 @@ class Course(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
 
-    class Meta:
-        app_label = 'classroomapi'
-        constraints = [
-            UniqueConstraint(fields=['id', 'organisation_id'], name='course_id')
-        ]
-
     def __str__(self):
-        return self.name
-
-
-class Event(models.Model):
-
-    class EventType(models.TextChoices):
-        LECTURE = 'LECTURE', _('Lecture')
-        WORKSHOP = 'WORKSHOP', _('Workshop')
-        ASSIGNMENT = 'ASSIGNMENT', _('Assignment')
-
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    name = models.CharField(max_length=60)
-    description = models.CharField(max_length=60)
-    type = models.CharField(max_length=16, choices=EventType.choices, default=EventType.LECTURE)
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
-
-    def __str__(self):
-        return self.name
+        return self.organisation.__str__() + "/" + self.name
 
 
 class Meeting(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     name = models.CharField(max_length=60)
-    description = models.CharField(max_length=60)
+    description = models.CharField(max_length=60, null=True)
     url = models.URLField(max_length=200)
 
     def __str__(self):
@@ -66,13 +41,32 @@ class Resource(models.Model):
         IMG = 'IMG', _('IMG')
 
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    name = models.CharField(max_length=60)
-    description = models.CharField(max_length=60)
+    name = models.CharField(max_length=60, null=True)
+    description = models.CharField(max_length=60, null=True)
     type = models.CharField(max_length=16, choices=ResourceType.choices, default=ResourceType.URL)
     url = models.URLField(max_length=200)
 
     def __str__(self):
         return self.name
+
+
+class Event(models.Model):
+
+    class EventType(models.TextChoices):
+        LECTURE = 'LECTURE', _('Lecture')
+        WORKSHOP = 'WORKSHOP', _('Workshop')
+        ASSIGNMENT = 'ASSIGNMENT', _('Assignment')
+
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    primary_resource = models.ForeignKey(Resource, null=True, on_delete=models.SET_NULL)
+    name = models.CharField(max_length=60)
+    description = models.CharField(max_length=60, null=True)
+    type = models.CharField(max_length=16, choices=EventType.choices, default=EventType.LECTURE)
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+
+    def __str__(self):
+        return self.course.__str__() + "/" + self.name
 
 # enum
 # LinkResourceType
