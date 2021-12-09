@@ -24,7 +24,7 @@ class Course(models.Model):
 class Meeting(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     name = models.CharField(max_length=60)
-    description = models.CharField(max_length=60, null=True)
+    description = models.CharField(max_length=60, blank=True)
     url = models.URLField(max_length=200)
 
     def __str__(self):
@@ -41,8 +41,8 @@ class Resource(models.Model):
         IMG = 'IMG', _('IMG')
 
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    name = models.CharField(max_length=60, null=True)
-    description = models.CharField(max_length=60, null=True)
+    name = models.CharField(max_length=60, blank=True)
+    description = models.CharField(max_length=60, blank=True)
     type = models.CharField(max_length=16, choices=ResourceType.choices, default=ResourceType.URL)
     url = models.URLField(max_length=200)
 
@@ -58,9 +58,9 @@ class Event(models.Model):
         ASSIGNMENT = 'ASSIGNMENT', _('Assignment')
 
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    primary_resource = models.ForeignKey(Resource, null=True, on_delete=models.SET_NULL)
+    primary_resource = models.ForeignKey(Resource, on_delete=models.SET_NULL)
     name = models.CharField(max_length=60)
-    description = models.CharField(max_length=60, null=True)
+    description = models.CharField(max_length=60, blank=True)
     type = models.CharField(max_length=16, choices=EventType.choices, default=EventType.LECTURE)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
