@@ -22,26 +22,26 @@ class GroupViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class OrganisationViewSet(viewsets.ModelViewSet):
-    queryset = models.Organisation.objects.all()
-    serializer_class = serializers.OrganisationSerializer
-
-
-class CourseViewSet(viewsets.ModelViewSet):
-    queryset = models.Course.objects.all()
-    serializer_class = serializers.CourseSerializer
-
-
-class EventViewSet(viewsets.ModelViewSet):
-    queryset = models.Event.objects.all()
-    serializer_class = serializers.EventSerializer
-
-
-class MeetingViewSet(viewsets.ModelViewSet):
-    queryset = models.Meeting.objects.all()
-    serializer_class = serializers.MeetingSerializer
-
-
-class ResourceViewSet(viewsets.ModelViewSet):
-    queryset = models.Resource.objects.all()
-    serializer_class = serializers.ResourceSerializer
+# class OrganisationViewSet(viewsets.ModelViewSet):
+#     queryset = models.Organisation.objects.all()
+#     serializer_class = serializers.OrganisationSerializer
+#
+#
+# class CourseViewSet(viewsets.ModelViewSet):
+#     queryset = models.Course.objects.all()
+#     serializer_class = serializers.CourseSerializer
+#
+#
+# class EventViewSet(viewsets.ModelViewSet):
+#     queryset = models.Event.objects.all()
+#     serializer_class = serializers.EventSerializer
+#
+#
+# class MeetingViewSet(viewsets.ModelViewSet):
+#     queryset = models.Meeting.objects.all()
+#     serializer_class = serializers.MeetingSerializer
+#
+#
+# class ResourceViewSet(viewsets.ModelViewSet):
+#     queryset = models.Resource.objects.all()
+#     serializer_class = serializers.ResourceSerializer

@@ -1,8 +1,8 @@
 from django.contrib import admin
-from classroomapi import models
+from classroomapi import models, legacy_models
 
 admin.site.register(models.Organisation)
 admin.site.register(models.Course)
-admin.site.register(models.Event)
-admin.site.register(models.Meeting)
-admin.site.register(models.Resource)
+admin.site.register(legacy_models.Event)
+admin.site.register(legacy_models.Meeting)
+admin.site.register(legacy_models.Resource)

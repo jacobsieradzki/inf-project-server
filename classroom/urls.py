@@ -18,21 +18,22 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import routers
-from classroomapi import views
+from classroomapi import views, endpoint_views
 
 router = routers.DefaultRouter()
 
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 
-router.register(r'organisations', views.OrganisationViewSet)
-router.register(r'courses', views.CourseViewSet)
-router.register(r'events', views.EventViewSet)
-router.register(r'meetings', views.MeetingViewSet)
-router.register(r'resources', views.ResourceViewSet)
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
+
+    path('organisation/', endpoint_views.OrganisationView.as_view()),
+    path('organisation/<slug:organisation_id>/', endpoint_views.OrganisationView.as_view()),
+    path('course/', endpoint_views.CoursesView.as_view()),
+    path('course/<slug:course_id>/', endpoint_views.CoursesView.as_view()),
+
+
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
