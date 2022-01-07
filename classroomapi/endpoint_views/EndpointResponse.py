@@ -9,12 +9,21 @@ def success(data):
     }, status=status.HTTP_200_OK)
 
 
-def error(message, status_id="error", data=None, error_status=status.HTTP_400_BAD_REQUEST):
+def error(message, debug_message=None, status_id="error", data=None, error_status=status.HTTP_400_BAD_REQUEST):
     return Response({
         "status": status_id,
         "message": message,
+        "debug_message": debug_message,
         "data": data
     }, status=error_status)
+
+
+def bad_request(message="Something went wrong - please try again later", debug_message="Bad request", data=None):
+    return error(message=message,
+                 debug_message=debug_message,
+                 status_id="bad_request",
+                 data=data,
+                 error_status=status.HTTP_400_BAD_REQUEST)
 
 
 def not_found(message="Item not found", data=None):

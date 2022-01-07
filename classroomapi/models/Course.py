@@ -10,4 +10,4 @@ class Course(models.Model):
     end_date = models.DateTimeField()
 
     def __str__(self):
-        return self.organisation.__str__() + "/" + self.name
+        return self.organisation.__str__() + " / COURSE:" + self.name + " (" + self.id + ")"
