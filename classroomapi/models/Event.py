@@ -4,7 +4,6 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Event(models.Model):
-
     class EventType(models.TextChoices):
         LECTURE = 'LECTURE', _('Lecture')
         WORKSHOP = 'WORKSHOP', _('Workshop')
