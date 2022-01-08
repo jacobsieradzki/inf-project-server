@@ -21,8 +21,9 @@ from rest_framework import routers
 from classroomapi import views
 
 from classroomapi.endpoint_views import OrganisationView
-from classroomapi.endpoint_views import CoursesView
+from classroomapi.endpoint_views import CourseView
 from classroomapi.endpoint_views import ResourceView
+from classroomapi.endpoint_views import SubtitleView
 from classroomapi.endpoint_views import EventView
 from classroomapi.endpoint_views import LinkView
 from classroomapi.endpoint_views import ClipView
@@ -38,15 +39,21 @@ urlpatterns = [
 
     path('organisation/', OrganisationView.as_view()),
     path('organisation/<slug:organisation_id>/', OrganisationView.as_view()),
-    path('course/', CoursesView.as_view()),
-    path('course/<slug:course_id>/', CoursesView.as_view()),
+
+    path('course/', CourseView.as_view()),
+    path('course/<slug:course_id>/', CourseView.as_view()),
+
     path('resource/<slug:course_id>/', ResourceView.as_view()),
     path('resource/<slug:course_id>/<slug:resource_id>', ResourceView.as_view()),
+
+    path('subtitle/<slug:course_id>/<slug:resource_id>/', SubtitleView.as_view()),
+
     path('event/<slug:course_id>/', EventView.as_view()),
     path('event/<slug:course_id>/<slug:event_id>', EventView.as_view()),
-    path('link/<slug:course_id>/', LinkView.as_view()),
-    path('clip/<slug:course_id>/', ClipView.as_view()),
 
+    path('link/<slug:course_id>/', LinkView.as_view()),
+
+    path('clip/<slug:course_id>/', ClipView.as_view()),
 
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
