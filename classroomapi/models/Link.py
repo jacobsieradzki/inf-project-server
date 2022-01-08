@@ -12,12 +12,14 @@ class Link(models.Model):
         LOCATION = 'LOCATION', _('Location')
         COMMENT = 'COMMENT', _('Comment')
 
-    min_course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     min_link_id = models.CharField(max_length=20)
     min_link_type = models.CharField(max_length=16, choices=LinkType.choices)
-    max_course = models.ForeignKey(Course, on_delete=models.CASCADE)
     max_link_id = models.CharField(max_length=20)
     max_link_type = models.CharField(max_length=16, choices=LinkType.choices)
 
     def __str__(self):
-        return "LINK: [" + self.min_link_type + ":" + self.min_link_id + "] to [" + self.max_link_type + ":" + self.max_link_id + "]"
+        return self.course.__str__() + " / LINK: [" \
+               + self.min_link_type + ":" + self.min_link_id \
+               + "] to [" \
+               + self.max_link_type + ":" + self.max_link_id + "]"
