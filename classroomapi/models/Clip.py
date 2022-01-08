@@ -13,11 +13,11 @@ class Clip(models.Model):
 
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     resource = models.ForeignKey(Resource, on_delete=models.CASCADE)
-    content = models.TextField()
+    content = models.TextField(blank=True)
     description = models.CharField(max_length=60, blank=True)
     type = models.CharField(max_length=16, choices=ClipType.choices, default=ClipType.NONE)
     start_location = models.IntegerField()
-    end_location = models.IntegerField(null=True)
+    end_location = models.IntegerField()
 
     def __str__(self):
         return self.course.__str__() + " / CLIP: " + self.type + " (" + str(self.id) + ")"

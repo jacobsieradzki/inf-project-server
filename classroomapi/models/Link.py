@@ -11,7 +11,7 @@ class Link(models.Model):
         COMMENT = 'COMMENT', _('Comment')
 
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    anchor = models.ForeignKey(Clip, on_delete=models.CASCADE, null=True)
+    anchor = models.ForeignKey(Clip, on_delete=models.CASCADE, null=True, blank=True)
 
     min_link_id = models.CharField(max_length=20)
     min_link_type = models.CharField(max_length=16, choices=LinkType.choices)

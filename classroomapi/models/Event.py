@@ -10,7 +10,7 @@ class Event(models.Model):
         ASSIGNMENT = 'ASSIGNMENT', _('Assignment')
 
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    primary_resource = models.ForeignKey(Resource, null=True, on_delete=models.SET_NULL)
+    primary_resource = models.ForeignKey(Resource, on_delete=models.SET_NULL, null=True, blank=True)
     name = models.CharField(max_length=60)
     description = models.CharField(max_length=60, blank=True)
     type = models.CharField(max_length=16, choices=EventType.choices, default=EventType.LECTURE)
