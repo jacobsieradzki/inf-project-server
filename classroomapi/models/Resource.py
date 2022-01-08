@@ -19,4 +19,4 @@ class Resource(models.Model):
     url = models.URLField(max_length=200)
 
     def __str__(self):
-        return self.course.__str__() + " / RESOURCE:" + self.name
+        return self.course.__str__() + " / RESOURCE:" + self.name + " (" + self.id + ")"
