@@ -1,6 +1,6 @@
 from rest_framework import views
 from classroomapi.models import Event
-from classroomapi.serializers import EventSerializer
+from classroomapi.serializers import EventSerializer, EventDetailSerializer
 from . import EndpointResponse
 
 
@@ -12,7 +12,7 @@ class EventView(views.APIView):
         if event_id is not None:
             try:
                 event = Event.objects.get(id=event_id, course_id=course_id)
-                serializer = EventSerializer(event)
+                serializer = EventDetailSerializer(event)
                 return EndpointResponse.success(data=serializer.data)
             except Event.DoesNotExist:
                 return EndpointResponse.not_found("Event not found")
