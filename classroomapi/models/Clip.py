@@ -5,7 +5,6 @@ from django.utils.translation import gettext_lazy as _
 
 class Clip(models.Model):
     class ClipType(models.TextChoices):
-        SUBTITLE = 'SUBTITLE', _('Subtitle')
         VIDEO_CLIP = 'VIDEO_CLIP', _('Video Clip')
         PDF_PAGE = 'PDF_PAGE', _('PDF Page')
         PDF_CLIP = 'PDF_CLIP', _('PDF Clip')

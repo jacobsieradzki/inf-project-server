@@ -19,7 +19,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import routers
 from classroomapi import views
-from classroomapi.endpoint_views import OrganisationView, CoursesView, ResourceView, EventView, LinkView, ClipView
+
+from classroomapi.endpoint_views import OrganisationView
+from classroomapi.endpoint_views import CoursesView
+from classroomapi.endpoint_views import ResourceView
+from classroomapi.endpoint_views import EventView
+from classroomapi.endpoint_views import LinkView
+from classroomapi.endpoint_views import LectureLinkView
+from classroomapi.endpoint_views import ClipView
 
 router = routers.DefaultRouter()
 
@@ -39,6 +46,7 @@ urlpatterns = [
     path('event/<slug:course_id>/', EventView.as_view()),
     path('event/<slug:course_id>/<slug:event_id>', EventView.as_view()),
     path('link/<slug:course_id>/', LinkView.as_view()),
+    path('link/<slug:course_id>/lecture/<slug:event_id>/', LectureLinkView.as_view()),
     path('clip/<slug:course_id>/', ClipView.as_view()),
 
 

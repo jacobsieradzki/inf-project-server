@@ -4,6 +4,12 @@ from classroomapi.serializers import LinkSerializer
 from . import EndpointResponse
 
 
+def get_links_for_id_and_type(linked_id, linked_type):
+    min_link_id_matches = Link.objects.filter(min_link_id=linked_id, min_link_type=linked_type)
+    max_link_id_matches = Link.objects.filter(max_link_id=linked_id, max_link_type=linked_type)
+    return min_link_id_matches | max_link_id_matches
+
+
 class LinkView(views.APIView):
     """
     Get all links for a course, or by linked_id
@@ -16,9 +22,7 @@ class LinkView(views.APIView):
             return EndpointResponse.bad_request(debug_message="Must provide id and type")
 
         if linked_id is not None:
-            min_link_id_matches = Link.objects.filter(min_link_id=linked_id, min_link_type=linked_type)
-            max_link_id_matches = Link.objects.filter(max_link_id=linked_id, max_link_type=linked_type)
-            links = min_link_id_matches | max_link_id_matches
+            links = get_links_for_id_and_type(linked_id, linked_type)
             serializer = LinkSerializer(links, many=True)
             return EndpointResponse.success(data=serializer.data)
 
