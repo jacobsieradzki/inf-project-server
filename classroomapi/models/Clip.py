@@ -17,7 +17,7 @@ class Clip(models.Model):
     description = models.CharField(max_length=60, blank=True)
     type = models.CharField(max_length=16, choices=ClipType.choices, default=ClipType.NONE)
     start_location = models.IntegerField()
-    end_location = models.IntegerField()
+    end_location = models.IntegerField(null=True)
 
     def __str__(self):
         return self.course.__str__() + " / CLIP: " + self.type + " (" + str(self.id) + ")"
