@@ -1,47 +1,21 @@
 from rest_framework.serializers import HyperlinkedModelSerializer, SerializerMethodField
-from classroomapi.models import Link, Event, Resource, Clip
-from .event import EventSerializer
-from .resource import ResourceSerializer
-from .clip import ClipSerializer
-
-
-def get_link_object(link_id, link_type):
-    if link_type == Link.LinkType.EVENT:
-        try:
-            event = Event.objects.get(id=link_id)
-            return EventSerializer(event).data
-        except Event.DoesNotExist:
-            return None
-
-    elif link_type == Link.LinkType.RESOURCE:
-        try:
-            resource = Resource.objects.get(id=link_id)
-            return ResourceSerializer(resource).data
-        except Resource.DoesNotExist:
-            return None
-
-    elif link_type == Link.LinkType.CLIP:
-        try:
-            clip = Clip.objects.get(id=link_id)
-            return ClipSerializer(clip).data
-        except Clip.DoesNotExist:
-            return None
-
-    else:
-        return None
+from classroomapi.models import Link
+from classroomapi.helper.links import get_link_object, get_link_count
+from .subtitle import SubtitleSerializer
 
 
 class LinkSerializer(HyperlinkedModelSerializer):
-    min_link_type = SerializerMethodField(method_name="get_min_link_type")
-    min_link_id = SerializerMethodField(method_name="get_min_link_id")
-    min_link = SerializerMethodField(method_name="get_min_link")
-    max_link_type = SerializerMethodField(method_name="get_max_link_type")
-    max_link_id = SerializerMethodField(method_name="get_max_link_id")
-    max_link = SerializerMethodField(method_name="get_max_link")
+    subtitle = SubtitleSerializer()
+    min_link_type = SerializerMethodField()
+    min_link_id = SerializerMethodField()
+    min_link = SerializerMethodField()
+    max_link_type = SerializerMethodField()
+    max_link_id = SerializerMethodField()
+    max_link = SerializerMethodField()
 
     class Meta:
         model = Link
-        fields = ['id', 'course_id', 'subtitle_id',
+        fields = ['id', 'course_id', 'subtitle',
                   'min_link_type', 'min_link_id', 'min_link',
                   'max_link_type', 'max_link_id', 'max_link']
 
@@ -62,3 +36,40 @@ class LinkSerializer(HyperlinkedModelSerializer):
 
     def get_max_link(self, obj: Link):
         return get_link_object(obj.get_max_id(), obj.get_max_type())
+
+
+class ShyLinkSerializer(HyperlinkedModelSerializer):
+    link_type = SerializerMethodField()
+    link_id = SerializerMethodField()
+    link_other_count = SerializerMethodField()
+    link = SerializerMethodField()
+
+    class Meta:
+        model = Link
+        fields = ['id', 'course_id', 'subtitle_id', 'link_type', 'link_id', 'link_other_count', 'link']
+
+    def get_link_type(self, obj: Link):
+        if self.should_use_min(obj):
+            return obj.get_min_type().value
+        else:
+            return obj.get_max_type().value
+
+    def get_link_id(self, obj: Link):
+        if self.should_use_min(obj):
+            return obj.get_min_id()
+        else:
+            return obj.get_max_id()
+
+    def get_link(self, obj: Link):
+        return get_link_object(self.get_link_id(obj), self.get_link_type(obj))
+
+    def get_link_other_count(self, obj: Link):
+        return get_link_count(self.get_link_id(obj), self.get_link_type(obj))-1
+
+    def should_use_min(self, obj: Link):
+        linked_id = self.context.get('id')
+        linked_type = self.context.get('type')
+        if linked_id and linked_type:
+            return obj.get_min_type().value == linked_type and obj.get_min_id() == linked_id
+        else:
+            return True

@@ -1,0 +1,52 @@
+from django.db.models import QuerySet
+from rest_framework.utils.serializer_helpers import ReturnDict
+from classroomapi.models import Link, Event, Resource, Clip
+from classroomapi.serializers.event import EventSerializer
+from classroomapi.serializers.resource import ResourceSerializer
+from classroomapi.serializers.clip import ClipSerializer
+
+
+def get_link_object(link_id, link_type) -> ReturnDict:
+    if link_type == Link.LinkType.EVENT:
+        try:
+            event = Event.objects.get(id=link_id)
+            return EventSerializer(event).data
+        except Event.DoesNotExist:
+            return None
+
+    elif link_type == Link.LinkType.RESOURCE:
+        try:
+            resource = Resource.objects.get(id=link_id)
+            return ResourceSerializer(resource).data
+        except Resource.DoesNotExist:
+            return None
+
+    elif link_type == Link.LinkType.CLIP:
+        try:
+            clip = Clip.objects.get(id=link_id)
+            return ClipSerializer(clip).data
+        except Clip.DoesNotExist:
+            return None
+
+    else:
+        return None
+
+
+def get_links_for_id_and_type(link_id, link_type) -> QuerySet:
+    if link_type == Link.LinkType.EVENT.value:
+        min_event = Link.objects.filter(min_link_event_id=link_id)
+        max_event = Link.objects.filter(max_link_event_id=link_id)
+        return min_event | max_event
+    elif link_type == Link.LinkType.RESOURCE.value:
+        min_resource = Link.objects.filter(min_link_resource_id=link_id)
+        max_resource = Link.objects.filter(max_link_resource_id=link_id)
+        return min_resource | max_resource
+    elif link_type == Link.LinkType.CLIP.value:
+        min_clip = Link.objects.filter(min_link_clip_id=link_id)
+        max_clip = Link.objects.filter(max_link_clip_id=link_id)
+        return min_clip | max_clip
+    return Link.objects.none()
+
+
+def get_link_count(link_id, link_type) -> int:
+    return len(get_links_for_id_and_type(link_id, link_type))
