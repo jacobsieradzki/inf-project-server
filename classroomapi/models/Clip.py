@@ -19,4 +19,4 @@ class Clip(models.Model):
     end_location = models.IntegerField()
 
     def __str__(self):
-        return self.course.__str__() + " / CLIP: " + self.type + " (" + str(self.id) + ")"
+        return self.course.__str__() + " / CLIP_" + self.type + " (" + str(self.id) + ")"

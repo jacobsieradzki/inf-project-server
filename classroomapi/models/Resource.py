@@ -24,4 +24,4 @@ class Resource(models.Model):
     status = models.CharField(max_length=16, choices=StatusType.choices, default=StatusType.READY)
 
     def __str__(self):
-        return self.course.__str__() + " / RESOURCE: " + self.name + " (" + str(self.id) + ")"
+        return self.course.__str__() + " / RESOURCE_" + self.type + ": " + self.name + " (" + str(self.id) + ")"

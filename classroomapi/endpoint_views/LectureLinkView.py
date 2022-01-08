@@ -23,7 +23,7 @@ class LectureLinkView(views.APIView):
         event = get_event(course_id, event_id)
         if event is None:
             return EndpointResponse.not_found(message="Event not found")
-        if event.type is not "LECTURE":
+        if event.type != Event.EventType.LECTURE.value:
             return EndpointResponse.bad_request(debug_message="Event is not a lecture")
         if event.primary_resource is None:
             return EndpointResponse.bad_request(message="Event does not have a primary_resource")

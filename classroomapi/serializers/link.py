@@ -32,33 +32,33 @@ def get_link_object(link_id, link_type):
 
 
 class LinkSerializer(HyperlinkedModelSerializer):
-    min_link_type = SerializerMethodField()
-    min_link_id = SerializerMethodField()
-    min_link = SerializerMethodField()
-    max_link_type = SerializerMethodField()
-    max_link_id = SerializerMethodField()
-    max_link = SerializerMethodField()
+    min_link_type = SerializerMethodField(method_name="get_min_link_type")
+    min_link_id = SerializerMethodField(method_name="get_min_link_id")
+    min_link = SerializerMethodField(method_name="get_min_link")
+    max_link_type = SerializerMethodField(method_name="get_max_link_type")
+    max_link_id = SerializerMethodField(method_name="get_max_link_id")
+    max_link = SerializerMethodField(method_name="get_max_link")
 
     class Meta:
         model = Link
-        fields = ['id', 'course_id', 'anchor_id',
+        fields = ['id', 'course_id', 'subtitle_id',
                   'min_link_type', 'min_link_id', 'min_link',
                   'max_link_type', 'max_link_id', 'max_link']
-
-    def get_min_link(self, obj: Link):
-        return get_link_object(obj.get_min_id(), obj.get_min_type())
-
-    def get_min_link_id(self, obj: Link):
-        return obj.get_min_id()
 
     def get_min_link_type(self, obj: Link):
         return obj.get_min_type().value
 
-    def get_max_link(self, obj: Link):
-        return get_link_object(obj.get_max_id(), obj.get_max_type())
+    def get_min_link_id(self, obj: Link):
+        return obj.get_min_id()
+
+    def get_min_link(self, obj: Link):
+        return get_link_object(obj.get_min_id(), obj.get_min_type())
+
+    def get_max_link_type(self, obj: Link):
+        return obj.get_max_type().value
 
     def get_max_link_id(self, obj: Link):
         return obj.get_max_id()
 
-    def get_max_link_type(self, obj: Link):
-        return obj.get_max_type().value
+    def get_max_link(self, obj: Link):
+        return get_link_object(obj.get_max_id(), obj.get_max_type())

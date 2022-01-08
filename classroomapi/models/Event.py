@@ -18,4 +18,4 @@ class Event(models.Model):
     end_date = models.DateTimeField()
 
     def __str__(self):
-        return self.course.__str__() + " / EVENT: " + self.name + " (" + str(self.id) + ")"
+        return self.course.__str__() + " / EVENT_" + self.type + ": " + self.name + " (" + str(self.id) + ")"

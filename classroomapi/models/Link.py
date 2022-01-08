@@ -31,7 +31,7 @@ class Link(models.Model):
         COMMENT = 'COMMENT', _('Comment')
 
     course = models.ForeignKey(_models.Course, on_delete=models.CASCADE)
-    subtitle_id = models.ForeignKey(_models.Subtitle, on_delete=models.CASCADE, null=True, blank=True)
+    subtitle = models.ForeignKey(_models.Subtitle, on_delete=models.CASCADE, null=True, blank=True)
 
     min_link_event = models.ForeignKey(_models.Event, on_delete=models.CASCADE,
                                        related_name='min_link_event',
@@ -54,20 +54,20 @@ class Link(models.Model):
                                       null=True, blank=True)
 
     def get_min_type(self):
-        return get_link_type(self.min_link_event, self.min_link_resource, self.min_link_clip)
+        return get_link_type(self.min_link_event_id, self.min_link_resource_id, self.min_link_clip_id)
 
     def get_min_id(self):
         return get_link_id(self.min_link_event_id, self.min_link_resource_id, self.min_link_clip_id)
 
     def get_max_type(self):
-        return get_link_type(self.max_link_event, self.max_link_resource, self.max_link_clip)
+        return get_link_type(self.max_link_event_id, self.max_link_resource_id, self.max_link_clip_id)
 
     def get_max_id(self):
         return get_link_id(self.max_link_event_id, self.max_link_resource_id, self.max_link_clip_id)
 
     def __str__(self):
         return self.course.__str__() + " / LINK: [" \
-               + self.get_min_type() + ":" + self.get_min_id() \
+               + self.get_min_type() + ":" + str(self.get_min_id()) \
                + "] to [" \
-               + self.get_max_type() + ":" + self.get_max_id() + "]" \
+               + self.get_max_type() + ":" + str(self.get_max_id()) + "]" \
                + " (" + str(self.id) + ")"
