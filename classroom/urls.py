@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import routers
 from classroomapi import views
-from classroomapi.endpoint_views import OrganisationView, CoursesView, ResourceView, EventView, LinkView
+from classroomapi.endpoint_views import OrganisationView, CoursesView, ResourceView, EventView, LinkView, ClipView
 
 router = routers.DefaultRouter()
 
@@ -38,7 +38,8 @@ urlpatterns = [
     path('resource/<slug:course_id>/<slug:resource_id>', ResourceView.as_view()),
     path('event/<slug:course_id>/', EventView.as_view()),
     path('event/<slug:course_id>/<slug:event_id>', EventView.as_view()),
-    path('links', LinkView.as_view()),
+    path('link/<slug:course_id>/', LinkView.as_view()),
+    path('clip/<slug:course_id>/', ClipView.as_view()),
 
 
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))

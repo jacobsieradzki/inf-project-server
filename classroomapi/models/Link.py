@@ -1,18 +1,18 @@
 from django.db import models
-from classroomapi.models import Course
+from classroomapi.models import Course, Clip
 from django.utils.translation import gettext_lazy as _
 
 
 class Link(models.Model):
     class LinkType(models.TextChoices):
         EVENT = 'EVENT', _('Event')
-        MEETING = 'MEETING', _('Meeting')
         RESOURCE = 'RESOURCE', _('Resource')
         CLIP = 'CLIP', _('Clip')
-        LOCATION = 'LOCATION', _('Location')
         COMMENT = 'COMMENT', _('Comment')
 
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    anchor = models.ForeignKey(Clip, on_delete=models.CASCADE, null=True)
+
     min_link_id = models.CharField(max_length=20)
     min_link_type = models.CharField(max_length=16, choices=LinkType.choices)
     max_link_id = models.CharField(max_length=20)

@@ -18,7 +18,7 @@ def error(message, debug_message=None, status_id="error", data=None, error_statu
     }, status=error_status)
 
 
-def bad_request(message="Something went wrong - please try again later", debug_message="Bad request", data=None):
+def bad_request(message="Something went wrong with the request", debug_message="Bad request", data=None):
     return error(message=message,
                  debug_message=debug_message,
                  status_id="bad_request",
