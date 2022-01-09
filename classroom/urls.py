@@ -27,6 +27,7 @@ from classroomapi.endpoint_views import SubtitleView
 from classroomapi.endpoint_views import EventView
 from classroomapi.endpoint_views import LinkView
 from classroomapi.endpoint_views import ClipView
+from classroomapi.endpoint_views import AWSTranscribeView
 
 router = routers.DefaultRouter()
 
@@ -54,6 +55,8 @@ urlpatterns = [
     path('link/<slug:course_id>/', LinkView.as_view()),
 
     path('clip/<slug:course_id>/', ClipView.as_view()),
+
+    path('aws/transcribe_state_change', AWSTranscribeView.as_view()),
 
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

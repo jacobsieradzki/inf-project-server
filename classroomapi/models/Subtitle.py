@@ -9,4 +9,5 @@ class Subtitle(models.Model):
     start_seconds = models.IntegerField()
 
     def __str__(self):
-        return self.course.__str__() + " / RESOURCE " + str(self.resource_id) + " / SUBTITLE: " " @ " + str(self.start_seconds) + "s"
+        return self.course.__str__() + " / RESOURCE " + str(self.resource_id) \
+               + " / " + " @" + str(self.start_seconds) + "s: " + self.content

@@ -1,8 +1,10 @@
 import boto3
 from . import datetime
 from . import s3
+import re
 
-
+TRANSCRIPTION_FILE_NAME = 'transcription'
+JOB_NAME_REGEX_PATTERN = "resource_(\\d\\d)_(\\d\\d)_(\\d\\d)_(\\d\\d)_(\\d\\d)_(\\d\\d)_(\\d\\d)"
 transcribe_client = boto3.client('transcribe', region_name=s3.get_bucket_region())
 
 
@@ -30,9 +32,26 @@ def start_video_resource_transcription(resource_id):
         return None, e
 
 
+def get_data_from_job_status_change(data):
+    job_detail = data.get('detail')
+    if not job_detail:
+        return None
+    job_name = job_detail.get('TranscriptionJobName') or ""
+    job_status = job_detail.get('TranscriptionJobStatus')
+    resource_id = None
+    m = re.match(JOB_NAME_REGEX_PATTERN, job_name)
+    if m:
+        resource_id = m.group(1)
+    return resource_id, job_status
+
+
+def get_transcription_vtt_path(resource_id):
+    return s3.get_resource_directory(resource_id) + TRANSCRIPTION_FILE_NAME + '.vtt'
+
+
 def _get_transcription_job_name(resource_id):
     return 'resource_' + str(resource_id) + '_' + datetime.get_date_time_string()
 
 
 def _get_transcription_job_path(resource_id):
-    return s3.get_resource_directory(resource_id) + 'transcription.json'
+    return s3.get_resource_directory(resource_id) + TRANSCRIPTION_FILE_NAME + '.json'

@@ -32,3 +32,18 @@ def delete_resource(resource_id):
     objects_to_delete = s3_client.list_objects_v2(Bucket=get_bucket_name(), Prefix=get_resource_directory(resource_id))
     delete_keys = {'Objects': [{'Key': k} for k in [obj['Key'] for obj in objects_to_delete.get('Contents', [])]]}
     return s3_client.delete_objects(Bucket=get_bucket_name(), Delete=delete_keys)
+
+
+def get_object(key):
+    try:
+        return s3_client.get_object(Bucket=get_bucket_name(), Key=key)
+    except Exception:
+        return None
+
+
+def get_object_text(key):
+    retrieved_object = get_object(key)
+    if not retrieved_object:
+        return None
+    contents = retrieved_object.get('Body').read()
+    return contents.decode('utf-8')
