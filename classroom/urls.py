@@ -22,7 +22,7 @@ from classroomapi import views
 
 from classroomapi.endpoint_views import OrganisationView
 from classroomapi.endpoint_views import CourseView
-from classroomapi.endpoint_views import ResourceView
+from classroomapi.endpoint_views import ResourceView, SingleResourceView
 from classroomapi.endpoint_views import SubtitleView
 from classroomapi.endpoint_views import EventView
 from classroomapi.endpoint_views import LinkView
@@ -44,7 +44,7 @@ urlpatterns = [
     path('course/<slug:course_id>/', CourseView.as_view()),
 
     path('resource/<slug:course_id>/', ResourceView.as_view()),
-    path('resource/<slug:course_id>/<slug:resource_id>', ResourceView.as_view()),
+    path('resource/<slug:course_id>/<slug:resource_id>', SingleResourceView.as_view()),
 
     path('subtitle/<slug:course_id>/<slug:resource_id>/', SubtitleView.as_view()),
 

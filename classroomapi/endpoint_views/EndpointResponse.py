@@ -26,6 +26,14 @@ def bad_request(message="Something went wrong with the request", debug_message="
                  error_status=status.HTTP_400_BAD_REQUEST)
 
 
+def server_error(message="Something went wrong - please try again later", debug_message="Internal server error", data=None):
+    return error(message=message,
+                 debug_message=debug_message,
+                 status_id="server_error",
+                 data=data,
+                 error_status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 def not_found(message="Item not found", data=None):
     return error(message,
                  status_id="not_found",
