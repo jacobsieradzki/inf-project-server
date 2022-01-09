@@ -7,7 +7,7 @@ transcribe_client = boto3.client('transcribe', region_name=s3.get_bucket_region(
 
 
 def start_video_resource_transcription(resource_id):
-    # try:
+    try:
         response = transcribe_client.start_transcription_job(
             TranscriptionJobName=_get_transcription_job_name(resource_id),
             IdentifyLanguage=True,
@@ -26,8 +26,8 @@ def start_video_resource_transcription(resource_id):
             }]
         )
         return response, None
-    # except Exception as e:
-    #     return None, e
+    except Exception as e:
+        return None, e
 
 
 def _get_transcription_job_name(resource_id):
