@@ -4,7 +4,7 @@ from classroomapi.models import Course
 from . import EndpointResponse
 
 
-class CoursesView(views.APIView):
+class CourseView(views.APIView):
     """
     Get all courses
     """

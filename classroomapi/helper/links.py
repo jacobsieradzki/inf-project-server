@@ -1,9 +1,9 @@
 from django.db.models import QuerySet
 from rest_framework.utils.serializer_helpers import ReturnDict
 from classroomapi.models import Link, Event, Resource, Clip
-from classroomapi.serializers.event import EventSerializer
-from classroomapi.serializers.resource import ResourceSerializer
-from classroomapi.serializers.clip import ClipSerializer
+from classroomapi.serializers.event_serializer import EventSerializer
+from classroomapi.serializers.resource_serializer import ResourceSerializer
+from classroomapi.serializers.clip_serializer import ClipSerializer
 
 
 def get_link_object(link_id, link_type) -> ReturnDict:
