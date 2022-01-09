@@ -31,7 +31,7 @@ class Link(models.Model):
         COMMENT = 'COMMENT', _('Comment')
 
     course = models.ForeignKey(_models.Course, on_delete=models.CASCADE)
-    subtitle = models.ForeignKey(_models.Subtitle, on_delete=models.CASCADE, null=True, blank=True)
+    subtitle = models.ForeignKey(_models.Subtitle, on_delete=models.SET_NULL, null=True, blank=True)
 
     min_link_event = models.ForeignKey(_models.Event, on_delete=models.CASCADE,
                                        related_name='min_link_event',
