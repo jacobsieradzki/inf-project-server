@@ -1,6 +1,6 @@
 from rest_framework.serializers import HyperlinkedModelSerializer, SerializerMethodField
-from classroomapi.models import Link
 from classroomapi.helper.links import get_link_object, get_link_count
+from classroomapi.models import Link
 from .subtitle_serializer import SubtitleSerializer
 
 

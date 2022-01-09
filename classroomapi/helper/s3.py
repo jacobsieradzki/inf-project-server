@@ -26,3 +26,9 @@ def upload_video_resource(resource_id, file):
         return file_url, None
     except ClientError as e:
         return None, e
+
+
+def delete_resource(resource_id):
+    objects_to_delete = s3_client.list_objects_v2(Bucket=get_bucket_name(), Prefix=get_resource_directory(resource_id))
+    delete_keys = {'Objects': [{'Key': k} for k in [obj['Key'] for obj in objects_to_delete.get('Contents', [])]]}
+    return s3_client.delete_objects(Bucket=get_bucket_name(), Delete=delete_keys)

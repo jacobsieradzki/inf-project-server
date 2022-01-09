@@ -1,9 +1,8 @@
 from rest_framework import views
-from rest_framework.parsers import FormParser, MultiPartParser, FileUploadParser
+from rest_framework.parsers import FormParser, MultiPartParser
 from classroomapi.models import Resource
 from classroomapi.serializers import ResourceSerializer
 from . import EndpointResponse
-from classroomapi.helper.aws import get_aws_access_key_id, get_aws_secret_access_key
 from classroomapi.helper import s3, transcribe
 
 
@@ -53,11 +52,6 @@ class ResourceView(views.APIView):
                 transcribe_response, transcribe_error = transcribe.start_video_resource_transcription(resource_id=r.id)
                 if transcribe_error:
                     r.status = Resource.StatusType.ERROR
-                    # ====
-                    r.save()
-                    serializer = ResourceSerializer(r)
-                    return EndpointResponse.server_error(debug_message=str(transcribe_error), data=serializer.data)
-                    # ====
                 else:
                     r.status = Resource.StatusType.PROCESSING
             r.save()
@@ -78,3 +72,12 @@ class SingleResourceView(views.APIView):
             return EndpointResponse.success(data=serializer.data)
         except Resource.DoesNotExist:
             return EndpointResponse.not_found("Resource not found")
+
+    def delete(self, request, course_id, resource_id):
+        try:
+            resource = Resource.objects.get(id=resource_id, course_id=course_id)
+            resource.delete()
+            return EndpointResponse.success()
+        except Resource.DoesNotExist:
+            return EndpointResponse.not_found("Resource not found")
+

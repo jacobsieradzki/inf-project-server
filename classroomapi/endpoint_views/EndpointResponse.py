@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 
-def success(data):
+def success(data=None):
     return Response({
         "status": "success",
         "data": data
