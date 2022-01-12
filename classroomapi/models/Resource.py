@@ -20,7 +20,7 @@ class Resource(models.Model):
     name = models.CharField(max_length=60, blank=True)
     description = models.CharField(max_length=60, blank=True)
     type = models.CharField(max_length=16, choices=ResourceType.choices, default=ResourceType.URL)
-    url = models.URLField(max_length=200, blank=True)
+    url = models.URLField(blank=True)
     status = models.CharField(max_length=16, choices=StatusType.choices, default=StatusType.READY)
 
     def __str__(self):
