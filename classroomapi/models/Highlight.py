@@ -5,13 +5,13 @@ from django.utils.translation import gettext_lazy as _
 
 class HighlightRect(models.Model):
     x1 = models.FloatField()
-    y1 = models.FloatField()
     x2 = models.FloatField()
+    y1 = models.FloatField()
     y2 = models.FloatField()
     width = models.FloatField()
     height = models.FloatField()
     page_number = models.IntegerField(blank=True, default=0)
-    parent_rect = models.ForeignKey('classroomapi.Highlight', on_delete=models.CASCADE)
+    parent = models.ForeignKey('classroomapi.Highlight', on_delete=models.CASCADE, blank=True, null=True)
 
 
 class Highlight(models.Model):
