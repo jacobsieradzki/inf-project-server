@@ -4,4 +4,5 @@ from .Resource import Resource
 from .Event import Event
 from .Clip import Clip
 from .Subtitle import Subtitle
+from .Highlight import Highlight, HighlightRect
 from .Link import Link

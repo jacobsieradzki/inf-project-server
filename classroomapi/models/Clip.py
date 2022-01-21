@@ -17,6 +17,8 @@ class Clip(models.Model):
     type = models.CharField(max_length=16, choices=ClipType.choices, default=ClipType.NONE)
     start_location = models.IntegerField()
     end_location = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.course.__str__() + " / CLIP_" + self.type + " (" + str(self.id) + ")"

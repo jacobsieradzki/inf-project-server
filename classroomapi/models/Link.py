@@ -53,6 +53,9 @@ class Link(models.Model):
                                       related_name='max_link_clip',
                                       null=True, blank=True)
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def get_min_type(self):
         return get_link_type(self.min_link_event_id, self.min_link_resource_id, self.min_link_clip_id)
 

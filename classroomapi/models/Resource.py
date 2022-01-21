@@ -22,6 +22,8 @@ class Resource(models.Model):
     type = models.CharField(max_length=16, choices=ResourceType.choices, default=ResourceType.URL)
     url = models.URLField(blank=True)
     status = models.CharField(max_length=16, choices=StatusType.choices, default=StatusType.READY)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.course.__str__() + " / RESOURCE_" + self.type + ": " + self.name + " (" + str(self.id) + ")"

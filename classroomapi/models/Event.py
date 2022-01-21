@@ -16,6 +16,8 @@ class Event(models.Model):
     type = models.CharField(max_length=16, choices=EventType.choices, default=EventType.LECTURE)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.course.__str__() + " / EVENT_" + self.type + ": " + self.name + " (" + str(self.id) + ")"
