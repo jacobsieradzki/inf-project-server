@@ -1,7 +1,7 @@
 from rest_framework import views
 from rest_framework.parsers import FormParser, MultiPartParser
 from classroomapi.models import Resource
-from classroomapi.serializers import ResourceSerializer
+from classroomapi.serializers import ResourceSerializer, SingleResourceSerializer
 from . import EndpointResponse
 from classroomapi.helper import s3, transcribe
 
@@ -68,7 +68,7 @@ class SingleResourceView(views.APIView):
     def get(self, request, course_id, resource_id):
         try:
             resource = Resource.objects.get(id=resource_id, course_id=course_id)
-            serializer = ResourceSerializer(resource)
+            serializer = SingleResourceSerializer(resource)
             return EndpointResponse.success(data=serializer.data)
         except Resource.DoesNotExist:
             return EndpointResponse.not_found("Resource not found")

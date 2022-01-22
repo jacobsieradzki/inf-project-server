@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Clip(models.Model):
+
     class ClipType(models.TextChoices):
         VIDEO_CLIP = 'VIDEO_CLIP', _('Video Clip')
         PDF_PAGE = 'PDF_PAGE', _('PDF Page')
@@ -14,6 +15,7 @@ class Clip(models.Model):
     resource = models.ForeignKey(Resource, on_delete=models.CASCADE)
     content = models.TextField(blank=True)
     description = models.CharField(max_length=60, blank=True)
+    emoji = models.CharField(max_length=5, blank=True)
     type = models.CharField(max_length=16, choices=ClipType.choices, default=ClipType.NONE)
 
     start_location = models.IntegerField()

@@ -1,6 +1,4 @@
 from django.db import models
-from classroomapi.models import Course, Resource
-from django.utils.translation import gettext_lazy as _
 
 
 class HighlightRect(models.Model):
@@ -16,23 +14,13 @@ class HighlightRect(models.Model):
 
 class Highlight(models.Model):
 
-    class HighlightType(models.TextChoices):
-        TXT = 'TXT', _('Text')
-        IMG = 'IMG', _('Image')
-
     id = models.BigIntegerField(primary_key=True)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    resource = models.ForeignKey(Resource, on_delete=models.CASCADE)
-    title = models.CharField(max_length=60, blank=True)
-    emoji = models.CharField(max_length=5, blank=True)
-    content = models.TextField(blank=True)
-    type = models.CharField(max_length=16, choices=HighlightType.choices, default=HighlightType.TXT)
     bounding_rect = models.ForeignKey(HighlightRect, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.course.__str__() + " / HIGHLIGHT " + str(self.resource_id) + ": " + self.content
+        return self.course.__str__() + " / HIGHLIGHT " + str(self.resource_id)
 
 
 

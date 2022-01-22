@@ -19,7 +19,7 @@ class LinkView(views.APIView):
 
         elif linked_id and linked_type:
             links = get_links_for_id_and_type(linked_id, linked_type)
-            serializer = ShyLinkSerializer(links, many=True)
+            serializer = ShyLinkSerializer(links, many=True, context={'id': linked_id, 'type': linked_type})
             return EndpointResponse.success(data=serializer.data)
 
         else:

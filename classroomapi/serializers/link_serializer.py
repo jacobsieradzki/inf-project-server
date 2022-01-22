@@ -2,6 +2,7 @@ from rest_framework.serializers import HyperlinkedModelSerializer, SerializerMet
 from classroomapi.helper.links import get_link_object, get_link_count
 from classroomapi.models import Link
 from .subtitle_serializer import SubtitleSerializer
+import json
 
 
 class LinkSerializer(HyperlinkedModelSerializer):
@@ -70,6 +71,6 @@ class ShyLinkSerializer(HyperlinkedModelSerializer):
         linked_id = self.context.get('id')
         linked_type = self.context.get('type')
         if linked_id and linked_type:
-            return obj.get_min_type().value == linked_type and obj.get_min_id() == linked_id
+            return not (obj.get_min_type().value == linked_type and str(obj.get_min_id()) == str(linked_id))
         else:
             return True
