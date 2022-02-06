@@ -1,6 +1,7 @@
 from rest_framework.serializers import HyperlinkedModelSerializer
 from classroomapi.models import Event
-from classroomapi.serializers import CourseSerializer, ResourceSerializer
+from .course_serializer import CourseSerializer
+from .resource_serializer import ResourceSerializer
 
 
 class EventSerializer(HyperlinkedModelSerializer):

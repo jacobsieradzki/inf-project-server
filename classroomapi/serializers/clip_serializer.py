@@ -8,7 +8,8 @@ class ClipSerializer(HyperlinkedModelSerializer):
 
     class Meta:
         model = Clip
-        fields = ['id', 'course_id', 'resource_id', 'content', 'description', 'type', 'start_location', 'end_location', 'highlight']
+        fields = ['id', 'course_id', 'resource_id', 'content', 'description', 'emoji', 'type',
+                  'start_location', 'end_location', 'highlight', 'created_at', 'updated_at']
 
 
 class ClipDetailSerializer(HyperlinkedModelSerializer):
@@ -17,4 +18,5 @@ class ClipDetailSerializer(HyperlinkedModelSerializer):
 
     class Meta:
         model = Clip
-        fields = ['id', 'course_id', 'resource', 'content', 'description', 'type', 'start_location', 'end_location', 'highlight']
+        fields = ['id', 'course_id', 'resource', 'content', 'description', 'type',
+                  'start_location', 'end_location', 'highlight', 'created_at', 'updated_at']

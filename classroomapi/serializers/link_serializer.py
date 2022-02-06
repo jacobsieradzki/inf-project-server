@@ -44,10 +44,12 @@ class ShyLinkSerializer(HyperlinkedModelSerializer):
     link_id = SerializerMethodField()
     link_other_count = SerializerMethodField()
     link = SerializerMethodField()
+    source_link = SerializerMethodField()
+    source_id = SerializerMethodField()
 
     class Meta:
         model = Link
-        fields = ['id', 'course_id', 'subtitle_id', 'link_type', 'link_id', 'link_other_count', 'link']
+        fields = ['id', 'course_id', 'subtitle_id', 'link_type', 'link_id', 'link_other_count', 'source_link', 'source_id', 'link']
 
     def get_link_type(self, obj: Link):
         if self.should_use_min(obj):
@@ -67,10 +69,30 @@ class ShyLinkSerializer(HyperlinkedModelSerializer):
     def get_link_other_count(self, obj: Link):
         return get_link_count(self.get_link_id(obj), self.get_link_type(obj))-1
 
+    def get_source_id(self, obj: Link):
+        linked_id = self.context.get('id')
+        if obj.min_link_clip or obj.max_link_clip:
+            return obj.max_link_clip.id if self.should_use_min(obj) else obj.min_link_clip.id
+        else:
+            return linked_id
+
+    def get_source_link(self, obj: Link):
+        if self.should_search_clips(obj):
+            return get_link_object(self.get_source_id(obj), "CLIP")
+        return None
+
     def should_use_min(self, obj: Link):
         linked_id = self.context.get('id')
         linked_type = self.context.get('type')
         if linked_id and linked_type:
-            return not (obj.get_min_type().value == linked_type and str(obj.get_min_id()) == str(linked_id))
+            match_resource_id = not (obj.get_min_type().value == linked_type and str(obj.get_min_id()) == str(linked_id))
+            if obj.min_link_clip or obj.max_link_clip:
+                match_clip_id = not (str(obj.min_link_clip.resource_id) == str(linked_id))
+                return match_resource_id and match_clip_id
+            else:
+                return match_resource_id
         else:
             return True
+
+    def should_search_clips(self, obj: Link):
+        return obj.min_link_clip or obj.max_link_clip

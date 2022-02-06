@@ -1,6 +1,6 @@
 from rest_framework.serializers import HyperlinkedModelSerializer
 from classroomapi.models import Course
-from classroomapi.serializers import OrganisationSerializer
+from .organisation_serializer import OrganisationSerializer
 
 
 class CourseSerializer(HyperlinkedModelSerializer):

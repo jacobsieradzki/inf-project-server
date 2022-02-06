@@ -29,6 +29,7 @@ from classroomapi.endpoint_views import EventView
 from classroomapi.endpoint_views import LinkView
 from classroomapi.endpoint_views import ClipView
 from classroomapi.endpoint_views import AWSTranscribeView
+from classroomapi.endpoint_views import CreatePDFHighlightView
 
 router = routers.DefaultRouter()
 
@@ -49,7 +50,8 @@ urlpatterns = [
     path('resource/<slug:course_id>/<slug:resource_id>', SingleResourceView.as_view()),
 
     path('subtitle/<slug:course_id>/<slug:resource_id>/', SubtitleView.as_view()),
-    path('highlight/<slug:resource_id>/', HighlightView.as_view()),
+
+    path('highlight/<slug:highlight_id>/', HighlightView.as_view()),
 
     path('event/<slug:course_id>/', EventView.as_view()),
     path('event/<slug:course_id>/<slug:event_id>', EventView.as_view()),
@@ -57,6 +59,8 @@ urlpatterns = [
     path('link/<slug:course_id>/', LinkView.as_view()),
 
     path('clip/<slug:course_id>/', ClipView.as_view()),
+
+    path('create/resource/pdf_highlight', CreatePDFHighlightView.as_view()),
 
     path('aws/transcribe_state_change', AWSTranscribeView.as_view()),
 
