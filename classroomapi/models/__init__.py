@@ -6,3 +6,4 @@ from .Subtitle import Subtitle
 from .Highlight import Highlight, HighlightRect
 from .Clip import Clip
 from .Link import Link
+from .Membership import Membership

@@ -32,6 +32,7 @@ class Link(models.Model):
 
     course = models.ForeignKey(_models.Course, on_delete=models.CASCADE)
     subtitle = models.ForeignKey(_models.Subtitle, on_delete=models.SET_NULL, null=True, blank=True)
+    approved = models.BooleanField()
 
     min_link_event = models.ForeignKey(_models.Event, on_delete=models.CASCADE,
                                        related_name='min_link_event',
