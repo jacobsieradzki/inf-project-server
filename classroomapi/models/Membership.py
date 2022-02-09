@@ -17,4 +17,4 @@ class Membership(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.course.__str__() + " / MEMBERSHIP " + "_" + self.role + ": " + self.user.username
+        return (self.course or self.organisation).__str__() + " / MEMBERSHIP" + "_" + self.role + ": " + self.user.username

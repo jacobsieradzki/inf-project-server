@@ -7,3 +7,4 @@ from .highlight_serializer import HighlightSerializer, HighlightRectSerializer
 from .link_serializer import LinkSerializer, ShyLinkSerializer
 from .subtitle_serializer import SubtitleSerializer
 from .clip_serializer import ClipSerializer, ClipDetailSerializer
+from .membership_serializer import MembershipSerializer

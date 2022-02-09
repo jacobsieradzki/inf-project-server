@@ -9,3 +9,4 @@ from .LinkView import *
 from .ClipView import *
 from .AWSTranscribeView import *
 from .CreatePDFHighlightView import *
+from .MembershipView import *

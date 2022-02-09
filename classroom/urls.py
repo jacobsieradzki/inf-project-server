@@ -31,6 +31,7 @@ from classroomapi.endpoint_views import LinkView
 from classroomapi.endpoint_views import ClipView
 from classroomapi.endpoint_views import AWSTranscribeView
 from classroomapi.endpoint_views import CreatePDFHighlightView
+from classroomapi.endpoint_views import MembershipView
 
 router = routers.DefaultRouter()
 
@@ -42,6 +43,7 @@ urlpatterns = [
     path('', include(router.urls)),
 
     path('user/', AccountsView.as_view()),
+    path('user/memberships/', MembershipView.as_view()),
 
     path('organisation/', OrganisationView.as_view()),
     path('organisation/<slug:organisation_id>/', OrganisationView.as_view()),
