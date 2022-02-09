@@ -9,6 +9,13 @@ def success(data=None):
     }, status=status.HTTP_200_OK)
 
 
+def success_created(data):
+    return Response({
+        "status": "success",
+        "data": data
+    }, status=status.HTTP_201_CREATED)
+
+
 def error(message, debug_message=None, status_id="error", data=None, error_status=status.HTTP_400_BAD_REQUEST):
     return Response({
         "status": status_id,
@@ -39,4 +46,10 @@ def not_found(message="Item not found", data=None):
                  status_id="not_found",
                  data=data,
                  error_status=status.HTTP_404_NOT_FOUND)
+
+def unauthorized(message="Unauthorized", data=None):
+    return error(message,
+                 status_id="unauthorized",
+                 data=data,
+                 error_status=status.HTTP_401_UNAUTHORIZED)
 

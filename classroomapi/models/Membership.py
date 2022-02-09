@@ -10,7 +10,7 @@ class Membership(models.Model):
         STUDENT = 'STUDENT', _('Student')
 
     organisation = models.ForeignKey(Organisation, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=16, choices=RoleType.choices, default=RoleType.STUDENT)
     created_at = models.DateTimeField(auto_now_add=True)

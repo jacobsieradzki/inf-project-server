@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 from rest_framework import routers
 from classroomapi import views
 
+from classroomapi.endpoint_views import AccountsView
 from classroomapi.endpoint_views import OrganisationView
 from classroomapi.endpoint_views import CourseView
 from classroomapi.endpoint_views import ResourceView, SingleResourceView
@@ -39,6 +40,8 @@ router.register(r'groups', views.GroupViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
+
+    path('user/', AccountsView.as_view()),
 
     path('organisation/', OrganisationView.as_view()),
     path('organisation/<slug:organisation_id>/', OrganisationView.as_view()),

@@ -1,3 +1,4 @@
+from .AccountsView import AccountsView
 from .OrganisationView import *
 from .CourseView import *
 from .ResourceView import *
