@@ -1,4 +1,5 @@
 from django.db import models
+from classroomapi.models import Resource
 
 
 class HighlightRect(models.Model):
@@ -13,8 +14,8 @@ class HighlightRect(models.Model):
 
 
 class Highlight(models.Model):
-
     id = models.BigIntegerField(primary_key=True)
+    resource = models.ForeignKey(Resource, on_delete=models.CASCADE)
     bounding_rect = models.ForeignKey(HighlightRect, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

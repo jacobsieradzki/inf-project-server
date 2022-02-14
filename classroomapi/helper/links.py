@@ -34,6 +34,33 @@ def get_link_object(link_id, link_type) -> ReturnDict:
         return None
 
 
+
+def get_link_object(link_id, link_type) -> ReturnDict:
+    if link_type == Link.LinkType.EVENT:
+        try:
+            event = Event.objects.get(id=link_id)
+            return EventSerializer(event).data
+        except Event.DoesNotExist:
+            return None
+
+    elif link_type == Link.LinkType.RESOURCE:
+        try:
+            resource = Resource.objects.get(id=link_id)
+            return ResourceSerializer(resource).data
+        except Resource.DoesNotExist:
+            return None
+
+    elif link_type == Link.LinkType.CLIP:
+        try:
+            clip = Clip.objects.get(id=link_id)
+            return ClipDetailSerializer(clip).data
+        except Clip.DoesNotExist:
+            return None
+
+    else:
+        return None
+
+
 def get_links_for_id_and_type(link_id, link_type) -> QuerySet:
     if link_type == Link.LinkType.EVENT.value:
         min_event = Link.objects.filter(min_link_event_id=link_id).exclude(max_link_event_id=link_id)

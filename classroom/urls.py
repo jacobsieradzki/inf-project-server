@@ -56,7 +56,7 @@ urlpatterns = [
 
     path('subtitle/<slug:course_id>/<slug:resource_id>/', SubtitleView.as_view()),
 
-    path('highlight/<slug:highlight_id>/', HighlightView.as_view()),
+    path('highlight/<slug:resource_id>/', HighlightView.as_view()),
 
     path('event/<slug:course_id>/', EventView.as_view()),
     path('event/<slug:course_id>/<slug:event_id>', EventView.as_view()),

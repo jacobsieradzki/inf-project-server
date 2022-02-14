@@ -71,7 +71,7 @@ class Link(models.Model):
 
     def __str__(self):
         return self.course.__str__() + " / LINK: [" \
-               + self.get_min_type() + ":" + str(self.get_min_id()) \
+               + str(get_link_id(self.min_link_event, self.min_link_resource, self.min_link_clip).__str__()) \
                + "] to [" \
-               + self.get_max_type() + ":" + str(self.get_max_id()) + "]" \
+               + str(get_link_id(self.max_link_event, self.max_link_resource, self.max_link_clip.__str__())) + "]" \
                + " (" + str(self.id) + ")"

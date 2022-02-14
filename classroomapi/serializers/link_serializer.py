@@ -2,7 +2,7 @@ from rest_framework.serializers import HyperlinkedModelSerializer, SerializerMet
 from classroomapi.helper.links import get_link_object, get_link_count
 from classroomapi.models import Link
 from .subtitle_serializer import SubtitleSerializer
-import json
+from .clip_serializer import ClipDetailSerializer
 
 
 class LinkSerializer(HyperlinkedModelSerializer):
@@ -52,13 +52,13 @@ class ShyLinkSerializer(HyperlinkedModelSerializer):
         fields = ['id', 'course_id', 'subtitle_id', 'link_type', 'link_id', 'link_other_count', 'source_link', 'source_id', 'link']
 
     def get_link_type(self, obj: Link):
-        if self.should_use_min(obj):
+        if self.link_should_be_min(obj):
             return obj.get_min_type().value
         else:
             return obj.get_max_type().value
 
     def get_link_id(self, obj: Link):
-        if self.should_use_min(obj):
+        if self.link_should_be_min(obj):
             return obj.get_min_id()
         else:
             return obj.get_max_id()
@@ -70,29 +70,42 @@ class ShyLinkSerializer(HyperlinkedModelSerializer):
         return get_link_count(self.get_link_id(obj), self.get_link_type(obj))-1
 
     def get_source_id(self, obj: Link):
-        linked_id = self.context.get('id')
-        if obj.min_link_clip or obj.max_link_clip:
-            return obj.max_link_clip.id if self.should_use_min(obj) else obj.min_link_clip.id
-        else:
-            return linked_id
+        src = self.should_use_source(obj)
+        return src.id if src else None
 
     def get_source_link(self, obj: Link):
-        if self.should_search_clips(obj):
-            return get_link_object(self.get_source_id(obj), "CLIP")
+        if self.should_use_source(obj):
+            min_clip = self.min_clip_is_connected(obj)
+            max_clip = self.max_clip_is_connected(obj);
+            if min_clip or max_clip:
+                return ClipDetailSerializer(min_clip or max_clip).data
         return None
 
-    def should_use_min(self, obj: Link):
+    def link_should_be_min(self, obj: Link):
+        if self.should_use_source(obj):
+            if self.min_clip_is_connected(obj):
+                return False
+            else:
+                return True
+        else:
+            linked_id = self.context.get('id')
+            linked_type = self.context.get('type')
+            match_resource_id = not (obj.get_min_type().value == linked_type and str(obj.get_min_id()) == str(linked_id))
+            return match_resource_id
+
+    def should_use_source(self, obj: Link):
+        return self.min_clip_is_connected(obj) or self.max_clip_is_connected(obj) or None
+
+    def min_clip_is_connected(self, obj: Link):
         linked_id = self.context.get('id')
         linked_type = self.context.get('type')
-        if linked_id and linked_type:
-            match_resource_id = not (obj.get_min_type().value == linked_type and str(obj.get_min_id()) == str(linked_id))
-            if obj.min_link_clip or obj.max_link_clip:
-                match_clip_id = not (str(obj.min_link_clip.resource_id) == str(linked_id))
-                return match_resource_id and match_clip_id
-            else:
-                return match_resource_id
-        else:
-            return True
+        if linked_type == "RESOURCE" and obj.min_link_clip and str(obj.min_link_clip.resource_id) == str(linked_id):
+            return obj.min_link_clip
+        return None
 
-    def should_search_clips(self, obj: Link):
-        return obj.min_link_clip or obj.max_link_clip
+    def max_clip_is_connected(self, obj: Link):
+        linked_id = self.context.get('id')
+        linked_type = self.context.get('type')
+        if linked_type == "RESOURCE" and obj.max_link_clip and str(obj.max_link_clip.resource_id) == str(linked_id):
+            return obj.max_link_clip
+        return None
