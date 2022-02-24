@@ -1,3 +1,4 @@
+from .result import Result
 from .Organisation import Organisation
 from .Course import Course
 from .Resource import Resource
