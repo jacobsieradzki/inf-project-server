@@ -30,7 +30,7 @@ from classroomapi.endpoint_views import EventView
 from classroomapi.endpoint_views import LinkView
 from classroomapi.endpoint_views import ClipView
 from classroomapi.endpoint_views import AWSTranscribeView
-from classroomapi.endpoint_views import CreatePDFHighlightView
+from classroomapi.endpoint_views import CreatePDFHighlightView, CreatePDFResourceView
 from classroomapi.endpoint_views import MembershipView
 
 router = routers.DefaultRouter()
@@ -39,8 +39,9 @@ router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', include(router.urls)),
+    path('admin/', admin.site.urls),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     path('user/', AccountsView.as_view()),
     path('user/memberships/', MembershipView.as_view()),
@@ -65,9 +66,8 @@ urlpatterns = [
 
     path('clip/<slug:course_id>/', ClipView.as_view()),
 
+    path('create/resource/pdf', CreatePDFResourceView.as_view()),
     path('create/resource/pdf_highlight', CreatePDFHighlightView.as_view()),
 
     path('aws/transcribe_state_change', AWSTranscribeView.as_view()),
-
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

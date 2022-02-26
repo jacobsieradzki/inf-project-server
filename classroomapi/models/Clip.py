@@ -26,4 +26,5 @@ class Clip(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.course.__str__() + " / CLIP_" + self.type + " (" + str(self.id) + ")"
+        return self.course.__str__() + " / CLIP_" + self.type + " (" + str(self.id) + ") on " \
+               + self.resource.type + ": " + self.resource.name + " (" + str(self.resource.id) + ")"

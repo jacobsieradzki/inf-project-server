@@ -14,15 +14,24 @@ def get_bucket_region(): return AWS_S3_REGION_NAME
 def get_resource_directory(rid): return 'resource/' + str(rid) + '/'
 def get_resource_video_file_path(rid): return get_resource_directory(rid) + 'video.mp4'
 def get_resource_video_file_url(rid): return get_bucket_base_url() + get_resource_video_file_path(rid)
+def get_resource_pdf_file_path(rid): return get_resource_directory(rid) + 'document.pdf'
+def get_resource_pdf_file_url(rid): return get_bucket_base_url() + get_resource_pdf_file_path(rid)
 
 
 def upload_video_resource(resource_id, file):
+    file_path = get_resource_video_file_path(resource_id)
+    return _upload_file(resource_id, file, file_path, get_resource_video_file_url)
+
+
+def upload_pdf_resource(resource_id, file):
+    file_path = get_resource_pdf_file_path(resource_id)
+    return _upload_file(resource_id, file, file_path, get_resource_pdf_file_url)
+
+
+def _upload_file(resource_id, file, file_path, get_url):
     try:
-        file_path = get_resource_video_file_path(resource_id)
-        s3_client.upload_fileobj(file, get_bucket_name(), file_path, ExtraArgs={
-            'ACL': 'public-read'
-        })
-        file_url = get_resource_video_file_url(resource_id)
+        s3_client.upload_fileobj(file, get_bucket_name(), file_path, ExtraArgs={'ACL': 'public-read'})
+        file_url = get_url(resource_id)
         return file_url, None
     except ClientError as e:
         return None, e

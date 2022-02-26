@@ -1,5 +1,4 @@
 from rest_framework import views
-from rest_framework.parsers import FormParser, MultiPartParser
 from classroomapi.models import Resource
 from classroomapi.serializers import ResourceSerializer
 from . import EndpointResponse
