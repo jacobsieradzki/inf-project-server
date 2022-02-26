@@ -53,15 +53,14 @@ class CreatePDFResourceView(views.APIView):
                 'resource': serializer.data
             })
 
-        p = 1
-        for img in images_result.data:
+        for idx, val in enumerate(images_result.data):
             c = Clip(course_id=course_id,
                      resource_id=r.id,
-                     content=pdf.get_image_from_pdfimgdata(img),
+                     content=pdf.get_image_from_pdfimgdata(val),
                      description='',
                      type=Clip.ClipType.PDF_PAGE.value,
-                     start_location=p,
-                     end_location=p)
+                     start_location=idx+1,
+                     end_location=idx+1)
             c.save()
 
         r.status = Resource.StatusType.READY

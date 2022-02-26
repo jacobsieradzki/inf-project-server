@@ -5,7 +5,7 @@ from pdf2image import convert_from_path
 from pdf2image.exceptions import PDFInfoNotInstalledError, PDFPageCountError, PDFSyntaxError
 
 
-_IMG_BLOB_PREFIX = 'data:image/jpeg;charset=utf-8;base64,'
+_IMG_BLOB_PREFIX = b'data:image/jpeg;charset=utf-8;base64,'
 
 
 def get_images_from_pdf(url) -> Result:
@@ -19,8 +19,8 @@ def get_images_from_pdf(url) -> Result:
         return Result(error=str(e))
 
 
-def get_image_from_pdfimgdata(img):
+def get_image_from_pdfimgdata(img) -> str:
     buffered = io.BytesIO()
     img.save(buffered, format="JPEG")
-    img_str = base64.b64encode(buffered.getvalue())
-    return _IMG_BLOB_PREFIX + img_str
+    img_bytes = base64.b64encode(buffered.getvalue())
+    return (_IMG_BLOB_PREFIX + img_bytes).decode()
