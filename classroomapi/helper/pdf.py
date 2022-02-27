@@ -10,7 +10,10 @@ _IMG_BLOB_PREFIX = b'data:image/jpeg;charset=utf-8;base64,'
 
 def get_images_from_pdf(url) -> Result:
     try:
-        return Result(data=convert_from_path(url, size=(None, 100), hide_annotations=True))
+        images = convert_from_path(url,
+                                   size=(None, 100),
+                                   hide_annotations=True)
+        return Result(data=images)
     except PDFInfoNotInstalledError as e:
         return Result(error=str(e))
     except PDFPageCountError as e:

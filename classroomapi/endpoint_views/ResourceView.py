@@ -13,7 +13,7 @@ class ResourceView(views.APIView):
     parser_classes = [FormParser, MultiPartParser]
 
     def get(self, request, course_id):
-        resources = Resource.objects.filter(course_id=course_id)
+        resources = Resource.objects.filter(course_id=course_id).order_by('-updated_at')
         serializer = ResourceSerializer(resources, many=True)
         return EndpointResponse.success(data=serializer.data)
 

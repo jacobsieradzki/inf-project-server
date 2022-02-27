@@ -1,6 +1,6 @@
 from rest_framework import views
 from classroomapi.models import Clip
-from classroomapi.serializers import ClipSerializer
+from classroomapi.serializers import ClipSerializer, ClipDetailSerializer
 from . import EndpointResponse
 
 
@@ -18,5 +18,5 @@ class ClipView(views.APIView):
 
         else:
             clips = Clip.objects.filter(course_id=course_id)
-            serializer = ClipSerializer(clips, many=True)
+            serializer = ClipDetailSerializer(clips, many=True)
             return EndpointResponse.success(data=serializer.data)

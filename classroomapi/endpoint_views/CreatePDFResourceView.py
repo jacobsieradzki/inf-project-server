@@ -10,7 +10,8 @@ class CreatePDFResourceView(views.APIView):
     Create highlight on PDF -> upload to s3, create Resource, create Clip for each page, then set READY status
     """
     def post(self, request):
-        course_id = request.data.get('course_id')
+
+        course_id = request.data.get('course_id', '')
         name_param = request.data.get('name', '')
         description_param = request.data.get('description', '')
         file_obj = request.data.get('file')
@@ -30,7 +31,7 @@ class CreatePDFResourceView(views.APIView):
                      status=Resource.StatusType.PROCESSING)
         r.save()
 
-        upload_url, upload_error = s3.upload_pdf_resource(r.id, file_obj)
+        upload_url, upload_error = s3.upload_pdf_resource(r.id, file_obj, name_param)
         if upload_error:
             r.status = Resource.StatusType.ERROR
             r.save()
