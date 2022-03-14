@@ -8,6 +8,7 @@ from .EventView import *
 from .LinkView import *
 from .ClipView import *
 from .AWSTranscribeView import *
-from .CreatePDFHighlightView import *
 from .MembershipView import *
 from .CreatePDFResourceView import *
+from .CreateVideoClipLinkView import *
+from .CreateUrlLinkView import *

@@ -1,9 +1,9 @@
 from rest_framework import views
 from rest_framework.parsers import FormParser, MultiPartParser
-from classroomapi.models import Resource
+from classroomapi.models import Resource, Clip
 from classroomapi.serializers import ResourceSerializer, SingleResourceSerializer
 from . import EndpointResponse
-from classroomapi.helper import s3, transcribe
+from classroomapi.helper import s3, transcribe, pdf
 
 
 class ResourceView(views.APIView):
@@ -43,19 +43,36 @@ class ResourceView(views.APIView):
 
         # For lecture videos: upload to S3 and start transcription
         if type_param == Resource.ResourceType.VID.value and file_obj:
+            r.status = Resource.StatusType.PROCESSING
             upload_url, upload_error = s3.upload_video_resource(r.id, file_obj)
             if upload_error:
                 r.status = Resource.StatusType.ERROR
+                r.description = str(upload_error)
             else:
                 r.url = upload_url
-
                 transcribe_response, transcribe_error = transcribe.start_video_resource_transcription(resource_id=r.id)
                 if transcribe_error:
                     r.status = Resource.StatusType.ERROR
-                else:
-                    r.status = Resource.StatusType.PROCESSING
-            r.save()
+                    r.description = str(transcribe_error)
 
+        # For PDFS: upload to s3 and create clips
+        if type_param == Resource.ResourceType.PDF.value and file_obj:
+            r.status = Resource.StatusType.PROCESSING
+            upload_url, upload_error = s3.upload_pdf_resource(r.id, file_obj, name_param)
+            if upload_error:
+                r.status = Resource.StatusType.ERROR
+                r.description = str(upload_error)
+            else:
+                r.url = upload_url
+                pages = pdf.create_clips_for_resource(r, upload_url)
+                if pages.is_error:
+                    r.status = Resource.StatusType.ERROR
+                    r.description = str(pages.error)
+                else:
+                    r.status = Resource.StatusType.READY
+
+        r.description = r.description[0:60]
+        r.save()
         serializer = ResourceSerializer(r)
         return EndpointResponse.success(data=serializer.data)
 

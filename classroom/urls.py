@@ -30,7 +30,9 @@ from classroomapi.endpoint_views import EventView
 from classroomapi.endpoint_views import LinkView
 from classroomapi.endpoint_views import ClipView
 from classroomapi.endpoint_views import AWSTranscribeView
-from classroomapi.endpoint_views import CreatePDFHighlightView, CreatePDFResourceView
+from classroomapi.endpoint_views import CreatePDFResourceView
+from classroomapi.endpoint_views import CreateVideoClipLinkView
+from classroomapi.endpoint_views import CreateUrlLinkView
 from classroomapi.endpoint_views import MembershipView
 
 router = routers.DefaultRouter()
@@ -67,7 +69,8 @@ urlpatterns = [
     path('clip/<slug:course_id>/', ClipView.as_view()),
 
     path('create/resource/pdf', CreatePDFResourceView.as_view()),
-    path('create/resource/pdf_highlight', CreatePDFHighlightView.as_view()),
+    path('create/link/video_clip', CreateVideoClipLinkView.as_view()),
+    path('create/link/url', CreateUrlLinkView.as_view()),
 
     path('aws/transcribe_state_change', AWSTranscribeView.as_view()),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
