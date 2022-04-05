@@ -25,8 +25,8 @@ def get_resource_pdf_file_url(rid, name): return get_bucket_base_url() + get_res
 
 
 def upload_video_resource(resource_id, file, file_name='video'):
-    file_path = get_resource_video_file_path(resource_id, file_name)
-    url = get_resource_video_file_url(resource_id, file_name)
+    file_path = get_resource_video_file_path(rid=resource_id, name=file_name)
+    url = get_resource_video_file_url(rid=resource_id, name=file_name)
     return _upload_file(file, file_path, url)
 
 

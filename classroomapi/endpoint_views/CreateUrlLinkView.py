@@ -35,8 +35,8 @@ class CreateUrlLinkView(views.APIView):
             description_param = tldextract.extract(url_param).fqdn
 
         resource = Resource(course_id=course_id,
-                            name=name_param,
-                            description=description_param,
+                            name=name_param[0:60],
+                            description=description_param[0:60],
                             url=url_param,
                             type=type_param,
                             status=Resource.StatusType.READY)

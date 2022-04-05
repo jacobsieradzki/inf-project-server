@@ -15,7 +15,7 @@ def start_video_resource_transcription(resource_id):
             IdentifyLanguage=True,
             MediaFormat='mp4',
             Media={
-                'MediaFileUri': s3.get_resource_video_file_url(resource_id)
+                'MediaFileUri': s3.get_resource_video_file_url(resource_id, 'video')
             },
             OutputBucketName=s3.get_bucket_name(),
             OutputKey=_get_transcription_job_path(resource_id),
