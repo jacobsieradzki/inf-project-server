@@ -16,7 +16,7 @@ class LinkSerializer(HyperlinkedModelSerializer):
 
     class Meta:
         model = Link
-        fields = ['id', 'course_id', 'subtitle',
+        fields = ['id', 'course_id', 'subtitle', 'approved',
                   'min_link_type', 'min_link_id', 'min_link',
                   'max_link_type', 'max_link_id', 'max_link']
 
@@ -49,7 +49,9 @@ class ShyLinkSerializer(HyperlinkedModelSerializer):
 
     class Meta:
         model = Link
-        fields = ['id', 'course_id', 'subtitle_id', 'link_type', 'link_id', 'link_other_count', 'source_link', 'source_id', 'link']
+        fields = ['id', 'course_id', 'subtitle_id', 'approved',
+                  'link_type', 'link_id', 'link_other_count',
+                  'source_link', 'source_id', 'link']
 
     def get_link_type(self, obj: Link):
         if self.link_should_be_min(obj):
