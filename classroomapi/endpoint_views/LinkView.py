@@ -27,7 +27,7 @@ class LinkView(views.APIView):
             return EndpointResponse.success(data=serializer.data)
 
     def post(self, request, course_id):
-        subtitle_id = request.data.get('subtitle_id', '')
+        subtitle_id = request.data.get('subtitle_id')
         from_id = str(request.data.get('from_id'))
         from_type = request.data.get('from_type')
         to_id = str(request.data.get('to_id'))
